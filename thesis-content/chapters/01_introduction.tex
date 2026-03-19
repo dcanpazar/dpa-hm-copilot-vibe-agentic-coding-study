@@ -1,0 +1,102 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+% ---------------------------------------------------------
+\section{Background and Motivation}
+\label{sec:intro-motivation}
+
+At an undeniable pace, \gls{ai} coding assistants have moved from experimental novelty to a default part of how software gets written \parencite{he2025cursorDID}, and the developers using them are no longer asking whether these tools belong in their workflow. They are asking something more difficult: how to use them better to get the job done \parencite{barke2023groundedcopilot, vaithilingam2022expectation}. The Stack Overflow Developer Survey documents the pace of this change: in 2024, 76\% of respondents were already using or planning to use \gls{ai} tools in their development process, and by 2025 that figure had climbed to 84\% \parencite{stackOverflow2024survey, stackOverflow2025survey}. The year-on-year growth across both surveys points to continued expansion of \gls{ai} tool adoption in professional development practice \parencite{stackOverflow2024survey, stackOverflow2025survey}. The year-on-year growth across both surveys points to continued expansion of \gls{ai} tool adoption in professional development practice. Millions of developers now build software with \glspl{llm} integrated directly into their workflows through platforms such as GitHub Copilot, Anthropic's Claude Code, and Google's Firebase Studio%
+\footnote{\url{https://github.com/features/copilot}; \url{https://code.claude.com/docs/en/overview}; \url{https://studio.firebase.google.com/}} among many others \parencite[pp.~54--55]{ziegler2024measuring}.\footnote{%
+  Tools including Anthropic Claude with Sonnet 4.5, OpenAI ChatGPT with GPT-5.2, and Google Gemini with Gemini Pro 3 were utilized throughout this study for drafting, language refinement, ideation, and coding support. All AI outputs were critically reviewed; responsibility for the final content remains entirely with the author.%
+}
+
+What makes the current moment particularly significant for empirical investigation is not simply the existence of \gls{ai} coding tools but the emergence of a new axis of variation among them: the \emph{level of autonomy they offer}. Until recently, the dominant mode of \gls{ai} assistance was conversational and suggestion-based. The developer asks a question or accepts an inline completion, evaluates the response, and decides what to do next \parencite{barke2023groundedcopilot}. The arrival of agentic coding assistants, capable of autonomously planning multi-step changes, executing terminal commands, creating files, and iterating on their own output \parencite{vscodeCopilotAgentMode}, represents a qualitative departure from that model. Developers today face a choice that is not simply about whether to use \gls{ai}, but about which fundamentally different mode of human--\gls{ai} collaboration to adopt.
+
+The first interaction mode is Vibe Coding, a term introduced by Andrej Karpathy, a founder member of OpenAI, to describe a workflow in which the developer steers the \gls{ai} through natural-language intent and iterative dialogue \parencite{sapkota2025vibecoding}. The second is Agentic Coding, in which the developer delegates a goal and supervises the \gls{ai}'s autonomous execution \parencite{sapkota2025vibecoding, sarkar2025codewithme}, that Karpathy himself revisited one year later in 2026, observing that professional workflows were shifting toward what he called ``agentic engineering'' — a mode defined not by writing code directly but by orchestrating agents and acting as oversight.\footnote{Karpathy, A. (@karpathy). (2026, February 3). Reflections on the 1-year anniversary of Vibe Coding and the professional shift toward ``Agentic Engineering''. Retrieved from https://x.com/karpathy} This trajectory from conversational steering to autonomous delegation is precisely the distinction this thesis investigates empirically. Both paradigms are examined in depth in Chapter~\ref{chap:background}.
+
+This distinction is not merely theoretical. Higher automation promises faster task completion and the ability to offload multi-step reasoning to the \gls{ai}, and controlled experiments have shown meaningful speed gains from \gls{ai}-assisted programming \parencite{peng2023copilot}. But delegation also introduces new demands: developers must verify larger and more opaque outputs, maintain oversight over semi-autonomous processes, and calibrate trust in a system whose internal reasoning is only partially visible \parencite[pp.~289--291]{parasuraman2000model}. Prior research documents that these costs are real; \gls{ai} assistance can increase speed while simultaneously introducing verification overhead \parencite[pp.~1--3]{vaithilingam2022expectation}, code quality risks \parencite{qodo2025codequality}, and trust calibration challenges \parencite[pp.~6--8]{barke2023trust}. What has not been systematically investigated is how these trade-offs differ depending on which interaction paradigm a developer adopts.
+
+That gap is the motivation for this thesis. The focus on comparing two \gls{ai}-assisted paradigms rather than contrasting \gls{ai} with manual coding is deliberate: by 2026, the question of whether to use \gls{ai} assistance has largely been settled by practice \parencite{stackOverflow2025survey}. The more consequential question now is which mode of collaboration suits which situation, and at what cost.
+
+% ---------------------------------------------------------
+\section{Problem Definition}
+\label{sec:intro-problem}
+
+Every developer who reaches for an \gls{ai} coding assistant faces a decision that traditional software engineering rarely needed to address: not whether to use \gls{ai}, but \emph{how} to collaborate with it. The choice sits on a spectrum from tight conversational steering (submitting prompts, reviewing responses, and directing each next step) to full goal-level delegation, where the developer describes what needs to happen and an autonomous agent decides how to make it so \parencite{sarkar2025codewithme}. This distinction between collaboration and delegation is not cosmetic. It changes what the developer does, what the \gls{ai} produces, and how errors surface and accumulate.
+
+A key methodological challenge in existing research is that this distinction has rarely been isolated cleanly. Studies typically vary multiple factors simultaneously: model capability, tool configuration, development environment, and task structure, making it difficult to attribute observed differences to interaction style rather than to confounding variables \parencite{wohlin2012experimentation}. When model quality and autonomy level change together, any measured efficiency gain could equally reflect better code generation rather than a more effective interaction paradigm.
+
+To address this attribution problem directly, this thesis holds constant everything that could otherwise explain a difference: the tool (GitHub Copilot), the \gls{ide} (Visual Studio Code\footnote{\url{https://code.visualstudio.com/}}), the underlying \gls{llm} (Claude Sonnet~4.5\footnote{\url{https://www.anthropic.com/news/claude-sonnet-4-5}}), and the task materials (repository-based Python programming tasks with automated test suites). The only manipulated factor is the coding paradigm: Vibe Coding operationalized through Ask mode, versus Agentic Coding operationalized through Agent mode. This controlled design ensures that differences in efficiency and perception can be interpreted as effects of collaboration versus delegation, not of model, tool, or environmental variation. The experimental implementation is described in detail in Chapter~\ref{chap:methodology}.
+
+The problem is genuinely non-trivial for at least three reasons. First, the optimal paradigm, likely depends on the nature of the task: debugging a localized bug may benefit from the tight, inspectable feedback loop of conversational assistance, while implementing a multi-file feature may benefit more from the autonomous execution that an agent can provide \parencite{barke2023groundedcopilot, sarkar2025codewithme}. Second, developer expertise modulates the interaction in important ways: experienced developers can evaluate large diffs quickly and are better positioned to catch agent errors before they compound, while less experienced developers may struggle with the oversight demands that delegation introduces \parencite{sarkar2025codewithme}. Third, the verification burden differs qualitatively between paradigms: under Vibe Coding, each small change can be inspected in isolation as it arrives, whereas under Agentic Coding, the developer must assess a coherent but potentially complex set of changes in a single review \parencite[pp.~1--3]{vaithilingam2022expectation}. These asymmetries make paradigm selection a consequential decision rather than a matter of personal preference.
+
+\section{Research Objectives}
+\label{sec:intro-objectives}
+
+This thesis pursues two research objectives, each targeting a distinct dimension of the paradigm comparison. The first is to \emph{measure efficiency and flow differences} between Vibe Coding and Agentic Coding. Concretely, this means quantifying task completion duration, task success rate, the number of discrete human--AI interaction cycles, and the frequency of observable workflow interruptions. Together these measures reveal not just whether one paradigm produces better outcomes, but how smoothly and consistently it does so.
+
+The second objective is to \emph{characterise the experiential differences} in trust, perceived control, and workflow fit. Developers' self-reported perceptions of how much they trusted the \gls{ai}'s outputs, how much control they felt, and how well the paradigm matched their working style are not peripheral concerns. They are the variables that determine whether a tool gets adopted in the first place and whether developers actually benefit from it over time \parencite{vaithilingam2022expectation, barke2023trust}. Aggregate efficiency metrics cannot capture these dimensions, which is why both objectives are needed together.
+
+Collectively, the two objectives address a gap in the empirical literature: the absence of a controlled comparison between conversational and agentic AI-assisted coding paradigms that holds all other variables constant \parencite{sarkar2025codewithme, wohlin2012experimentation}. Chapter~\ref{chap:methodology} operationalises these objectives into a concrete experimental protocol, and Chapter~\ref{chap:results} reports the corresponding findings.
+% ---------------------------------------------------------
+\section{Research Questions}
+
+\label{sec:intro-rqs}
+Building on the objectives stated in Section~\ref{sec:intro-objectives}, two research questions guide this thesis:
+\begin{description}
+
+  \item[\gls{rq1}] \emph{How do Vibe Coding and Agentic Coding differ in terms of developer efficiency and flow during coding activities?}
+    This question targets the performance dimension of the paradigm comparison, covering task completion time, success rate, interaction cost, and observable workflow interruptions.
+
+  \item[\gls{rq2}] \emph{How do developers perceive trust, control, and workflow fit when using Vibe Coding versus Agentic Coding?}
+    This question targets the experiential dimension, capturing how developers felt about working with each paradigm rather than what they objectively accomplished. The constructs of trust, control, and workflow fit are defined and grounded in prior literature in Chapter~\ref{chap:background}.
+
+\end{description}
+
+% ---------------------------------------------------------
+\section{Structure of the Thesis}
+
+\label{sec:intro-structure}
+
+Chapter~\ref{chap:background} explores the conceptual foundations: \gls{ai}-assisted programming, both coding paradigms (Vibe and Agentic Coding) in detail, and the core constructs of efficiency, flow, trust, control, and workflow fit. Chapter~\ref{chap:related-work} surveys the empirical literature on \gls{ai} coding productivity, human--AI interaction, trust and autonomy, and identifies the research gap that this thesis addresses. Chapter~\ref{chap:methodology} details the within-subject experimental design, participant allocation, task materials, instruments, and analysis approach used to compare the two paradigms under controlled conditions. Chapter~\ref{chap:results} presents the quantitative findings for \gls{rq1} (efficiency and flow metrics across paradigms) and the qualitative findings for \gls{rq2} (Likert ratings and interview data on trust, control, and workflow fit). Chapter~\ref{chap:discussion} interprets the results within the collaboration-versus-delegation framework developed in Chapter~\ref{chap:background}, examines practice implications, and addresses threats to validity. Chapter~\ref{chap:conclusion} synthesises the contributions into concrete best-practice recommendations for developers and organisations, and outlines directions for future research. Table~\ref{tab:key-definitions} below consolidates the key terms used throughout this thesis. These definitions are applied consistently across all chapters and operationalized into specific measures in Chapter~\ref{chap:methodology}, providing the conceptual baseline for what follows.
+
+\begin{table}[htbp]
+  \centering
+  \footnotesize
+  \caption[Definitions of key terms]{Definitions of key terms used throughout this thesis.}
+  \label{tab:key-definitions}
+
+  {\renewcommand{\arraystretch}{0.85}
+    \setlength{\tabcolsep}{3pt}
+    \rowcolors{2}{gray!10}{white}
+    \begin{tabularx}{1\textwidth}{p{2.3cm} X}
+      \toprule
+      \rowcolor{accentblue}
+      \textbf{Term} & \textbf{Definition} \\
+      \midrule
+
+      AI-Assisted Programming & The use of machine-learning-based tools that participate in one or more stages of software development (understanding, editing, running, testing, debugging) within an integrated development environment \parencite{ziegler2024measuring}. \\
+
+      \textit{Agentic Coding} & An interaction paradigm in which the developer delegates a goal to an AI agent, which autonomously plans and executes multi-step actions. Operationalized via GitHub Copilot's \emph{Agent} mode \parencite{sapkota2025vibecoding, sarkar2025codewithme}. \\
+
+      \textit{Vibe Coding} & An interaction paradigm in which the developer and the AI engage in turn-by-turn conversational exchange, with the developer steering each step. Operationalized via GitHub Copilot's \emph{Ask} mode \parencite{sapkota2025vibecoding}. \\
+
+      Large Language Model (LLM) & A neural network trained on large corpora of text and source code that generates syntactically coherent outputs in response to a prompt. Model outputs are probabilistic rather than verified \parencite{chen2021codex}. \\
+
+      AI Autonomy & The degree to which an AI system selects and executes actions independently, ranging from passive suggestion to completely autonomous execution \parencite[pp.~287--289]{parasuraman2000model}. \\
+
+      Efficiency & The relationship between resources expended (e.g., time, interaction cycles) and outcomes achieved (e.g., task completion, correctness). Measured via completion time, success rate, and interaction cost \parencite{ziegler2024measuring, peng2023copilot}. \\
+
+      Flow & A state of deep task absorption characterized by sustained focus and minimal perceived interruption \parencite[pp.~71--77]{csikszentmihalyi1990flow}. Operationalized through observable interruption counts and self-reported ratings. \\
+
+      Trust & The attitude that an agent will help achieve an individual's goals under conditions of uncertainty and vulnerability \parencite[p.~54]{leeSee2004trust}. Measured via post-task Likert-scale ratings and interview responses. \\
+
+      Control \& Oversight & The developer's capacity to inspect, steer, intervene in, and revert the AI's actions. At higher autonomy levels, oversight becomes a distinct supervisory activity \parencite[pp.~289--291]{parasuraman2000model}. \\
+
+      Workflow Fit & The degree to which an interaction paradigm's rhythm and structure match the developer's working style, cognitive preferences, and task demands \parencite{sarkar2025codewithme}. \\
+
+      \bottomrule
+
+  \end{tabularx}}
+
+\end{table}

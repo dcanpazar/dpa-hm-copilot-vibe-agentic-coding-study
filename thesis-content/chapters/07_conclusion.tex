@@ -1,0 +1,73 @@
+% ---------------------------------------------------------
+
+\chapter{Conclusion}
+
+\label{chap:conclusion}
+
+\section{Summary of Findings}
+
+This thesis compared Vibe Coding and Agentic Coding; two AI-assisted coding paradigms, on developer efficiency, flow, and subjective experience through a within-subject experiment with 12 participants. A detailed interpretation of these results is provided in Chapter~\ref{chap:discussion}. The headline findings are as follows.
+
+Agentic Coding was substantially faster across all quantitative measures: median task completion time fell from 12.5 to 4.6 minutes (Wilcoxon $V=10$, $p=0.020$, $r=0.74$), interaction cost dropped from a median of 5.0 prompts to 1.5 agent runs ($p=0.0020$, $r=1.00$), and observable interruptions declined from a median of 1 to 0 ($p=0.016$). Task success rates favoured Agentic Coding descriptively (75\% versus 42\%), though the difference did not reach significance at the sample size used ($p=0.289$). Under a Bonferroni correction for four simultaneous tests ($\alpha_{\text{adj}}=0.0125$), only the interaction cost result survives; completion time and interruptions narrowly exceed the adjusted threshold.
+
+Subjective experience did not mirror these efficiency gains. Ten of twelve participants rated Agentic Coding as more efficient in interviews, yet Likert ratings for flow (3.17 vs.\ 3.08), workflow fit (3.67 vs.\ 3.42), control (2.42 vs.\ 2.83), and trust (3.50 vs.\ 3.75) were all essentially tied between paradigms. Control was redistributed rather than gained or lost: Vibe Coding offered incremental steering while Agentic Coding moved to supervisory oversight. Trust in both paradigms was verification-driven and anchored primarily to \texttt{pytest} outcomes. The higher variability in Agentic workflow-fit ratings ($SD=1.62$ vs.\ $1.15$) reflects genuine individual differences in how well delegation matched each participant's working style.
+
+The core finding is that paradigm choice is a genuine trade-off, not an upgrade. Efficiency and experienced flow can diverge. Paradigm selection should depend on task characteristics, verification infrastructure, and working style not on a blanket preference for automation.
+
+\pagebreak
+
+% ---------------------------------------------------------
+
+\section{Best Practices for Using the Two AI Coding Paradigms}
+
+Based on the empirical findings and qualitative patterns observed during sessions, the following concrete practices emerged for each paradigm.
+
+\paragraph{Vibe Coding.}
+
+\begin{enumerate}
+
+  \item \textbf{Front-load context in prompts.} Detailed initial prompts that specify requirements, constraints, and expected behaviour reduce the number of follow-up iterations and mitigate the prompt-and-repair cycle that was the primary source of time loss in this study (median interaction cost: 5.0 prompts vs.\ 1.5 agent runs; Section~\ref{sec:rq1}).
+
+  \item \textbf{Constrain scope per interaction.} Requesting small, targeted changes rather than open-ended solutions keeps each response inspectable and limits the cognitive load of integrating many partial answers. Participants who valued this granularity described it as the core advantage of Vibe Coding's steering model (Section~\ref{sec:disc-rq2}).
+
+  \item \textbf{Use tests as checkpoints.} Running the test suite after each exchange provides an objective anchor for deciding whether to continue in the current direction or change course. Across both paradigms, \texttt{pytest} outcomes served as the dominant trust-calibration mechanism (Section~\ref{sec:disc-rq2}); under Vibe Coding specifically, they helped prevent drift across many iterations.
+
+  \item \textbf{Batch related requests.} When several changes address the same function or module, combining them in a single prompt avoids redundant context-setting and preserves momentum. The strong association between interaction cost and completion time (Spearman's $\rho=0.68$, $p<0.001$; Section~\ref{sec:rq1}) suggests that each additional exchange carries a measurable time penalty.
+
+\end{enumerate}
+
+\paragraph{Agentic Coding.}
+
+\begin{enumerate}
+
+  \item \textbf{Scope agent runs to well-defined subtasks.} Narrowing the agent's objective to a single function, test case, or bug fix makes diffs easier to review and limits the blast radius of errors. This directly addresses the oversight burden that participants identified as Agentic Coding's main friction point (Section~\ref{sec:disc-tradeoff}).
+
+  \item \textbf{Review diffs before approval.} Because a single agent run can span multiple files and dozens of lines, inspecting proposed changes \emph{before} accepting them prevents compounding errors that are costly to unwind. The approval anxiety reported by participants (Section~\ref{sec:disc-rq2}) stemmed precisely from situations where diffs were accepted without thorough review.
+
+  \item \textbf{Establish rollback points.} Committing or stashing the working state before launching an agent run provides a safe return path if the run produces unintended side effects. Agentic Coding failures in TG1 were frequently associated with early missteps that lacked a clean recovery path (Section~\ref{sec:rq1}).
+
+  \item \textbf{Act early on drift.} When the agent pursues an unproductive direction, stopping the run and re-scoping the instruction is more efficient than allowing it to compound errors across further steps. Participants who intervened promptly recovered faster than those who waited (Section~\ref{sec:rq1}).
+
+\end{enumerate}
+
+These practices are not mutually exclusive. Several participants noted that alternating between paradigms within a session using Vibe Coding for exploratory reasoning and Agentic Coding for well-scoped execution could combine the advantages of both approaches.
+
+% ---------------------------------------------------------
+
+\section{Contributions and Outlook}
+
+This thesis makes four contributions. First, it provides, to the best of the author's knowledge, one of the earliest controlled empirical comparisons of conversational and agentic AI-assisted coding paradigms within a single IDE, using a within-subject design that isolates the paradigm variable from tool and model confounds. Second, it delivers a paired dataset of 24 task-level observations, session recordings, and qualitative interview data that can support secondary analysis and replication. Third, it offers quantitative evidence that agentic assistance substantially reduces completion time, interaction cost, and interruptions while also documenting the supervision friction and trust dynamics that accompany delegation. Fourth, it translates these findings into implementable best practices for developers and organisations adopting AI coding tools.
+
+The near-term outlook for agentic coding is one of rapid adoption alongside open questions. As AI models and tool integrations continue to mature, the efficiency advantages documented here will likely grow, particularly for tasks with well-defined success criteria. What remains unclear is how developers will calibrate trust and oversight over longer time horizons, whether agentic workflows will cause systematic code quality or security risks that short-term studies cannot detect \parencite{perry2023insecure, qodo2025codequality}, and how team-level review processes will adapt to the larger, more coherent changesets that agentic tools produce. Answering these questions will require longitudinal field studies and expanded outcome measures that go beyond efficiency to encompass maintainability, security, and developer skill development.
+
+% ---------------------------------------------------------
+
+\section{Learnings and Reflections}
+
+Beyond the formal contributions of this thesis, the process of completing it produced a set of personal learnings worth briefly acknowledging. From a practical standpoint, this thesis required acquiring several capabilities from scratch. Prior to beginning, \LaTeX{} was unfamiliar territory, and formal research methodology, experimental design, statistical testing, qualitative coding had not previously been applied in a structured scholarly context. These competencies were built iteratively throughout the writing process itself, meaning the thesis served simultaneously as subject and training ground.
+
+Keeping pace with the subject matter presented its own ongoing challenge. AI developments move faster than most academic domains, and maintaining an accurate picture of the state of the field required active, continuous engagement throughout the entire duration of the project: tracking model releases, reading preprints, and revising framing as the landscape shifted. This is reflected in the thesis itself, which incorporates developments from early 2026 an unusual situation for a thesis still in progress at the time.
+
+The observational sessions, however, produced the most genuinely surprising insights. Observing twelve developers work with the same tools on the same tasks revealed a degree of individual variation that was not anticipated. What stood out most was the behaviour of more senior participants. The intuitive expectation going in was that experienced engineers would carry some resistance or doubt toward AI-generated output. Instead, several senior participants evaluated the agent's contributions on their merits, and in more than one instance remarked that the output was of a quality that would have been difficult to produce themselves in the same timeframe. This corresponded with an emerging pattern in the literature suggesting that assumptions about generational resistance to AI tooling are already being challenged in practice.
+
+Finally, observing real developers navigate these trade-offs brought the best practices documented in this thesis out of the abstract and into something more concrete and personally applicable. Recognising firsthand when delegation genuinely serves a task and when retaining granular control is the better choice is a lesson that goes beyond the research findings into everyday development practice.

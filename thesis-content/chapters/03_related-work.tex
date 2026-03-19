@@ -1,0 +1,246 @@
+\chapter{Related Work and Research Gap}
+
+\label{chap:related-work}
+
+Building on the productivity dimensions introduced in Section~\ref{sec:bg-tradeoff}, prior empirical studies predominantly operationalize metrics such as \emph{task completion time}, \emph{task success rate}, \emph{acceptance rate}, and \emph{perceived productivity} \parencite[pp.~55--58]{ziegler2024measuring, peng2023copilot, vaithilingam2022expectation}. Because these metrics capture distinct aspects of performance, they are not interchangeable: improvements in speed do not necessarily imply gains in correctness, and subjective usefulness may diverge from objectively measured efficiency.
+
+\section{Productivity Evidence for AI Coding Assistants}
+
+\label{sec:rw-productivity}
+
+Across studies, results suggest \gls{ai} assistance can improve certain productivity dimensions, though effect sizes vary with task design and participant population. Peng et al.\ ran a randomized controlled trial ($n=95$) and found Copilot users completed an HTTP server task 55.8\% faster than a control group, with gains strongest among less experienced developers \parencite{peng2023copilot}. Ziegler et al.\ measured Copilot’s impact within GitHub at scale, reporting an inline-suggestion acceptance rate of roughly 30\% and a correlation between acceptance and self-reported productivity \parencite[pp.~57--59]{ziegler2024measuring}. Cui et al.\ reported 20--30\% task-time reductions in field experiments with professional developers for repository-level work, moderated by task complexity and developer experience \parencite{cui2025effectsgenai}. Taken together, these outcomes support the claim that \gls{ai} assistance can produce measurable speed gains, particularly for well-scoped implementation tasks.
+
+However, productivity benefits are not uniform. Vaithilingam, Zhang, and Glassman found that while participants preferred using Copilot, the tool did not significantly improve completion time or success rate in their controlled evaluation \parencite{vaithilingam2022expectation}. Participants reported difficulty debugging and understanding generated code, indicating that verification and comprehension costs can offset generation speed. Mozannar et al.\ complement this through modeling the cognitive cost of \emph{reading, verifying, and repairing} generated output, highlighting that such costs can remain invisible if measurement focuses on suggestion generation rather than the full interaction cycle \parencite{mozannar2024reading}.
+
+Methodological choices help explain these discrepancies \parencite{wohlin2012experimentation}. Task scope varies from short exercises to repository-level tasks necessitating multi-file reasoning; participant populations range from students to professionals; and measurement choices differ on whether they include downstream time spent validating and integrating outputs. Most importantly for this thesis, many studies treat \gls{ai} assistance as a single intervention (AI vs.\ no-AI), rather than examining how different \emph{interaction paradigms} (collaboration vs.\ delegation) within AI-assisted work reshape outcomes under otherwise controlled conditions.
+
+A newer body of evidence starts to quantify the impact of \emph{agentic} assistants in the wild, which is relevant because the field is actively shifting toward more autonomous tool use. He et al.\ estimate the causal impact of adopting Cursor \gls{ide}\footnote{\url{https://github.com/cursor/cursor}; Cursor is an AI code editor and coding agent.} using a difference-in-differences design and report large but transient velocity gains alongside persistent increases in static analysis warnings and code complexity \parencite{he2025cursorDID}. These results yield valuable macro-level signals (velocity--quality trade-offs) but do not isolate how specific interaction structures (e.g., step-by-step chat versus delegated agent runs) drive those outcomes, nor do they capture within-task flow costs or subjective experience.
+
+% ---------------------------------------------------------
+
+\section{Human--AI Interaction in Programming Workflows}
+
+\label{sec:rw-interaction}
+
+Beyond aggregate productivity metrics, a parallel stream of research examines the \emph{interaction dynamics} that unfold when developers work with \gls{ai} coding tools: how developers prompt, steer, verify, and recover when outputs are wrong, and how these behaviors reshape workflow \parencite{barke2023groundedcopilot, mozannar2024reading}.
+
+Barke, James, and Polikarpova conducted a grounded-theory study of programmers using GitHub Copilot ($n=20$) and identified two dominant interaction fields: \emph{acceleration} (speeding up familiar tasks) and \emph{exploration} (traversing unfamiliar territory) \parencite{barke2023groundedcopilot}. In acceleration mode, developers usually adopt rapid accept-or-reject behavior with relatively shallow scrutiny; in exploration mode, they iterate more critically, inspect suggestions more carefully, and use the assistant to probe unfamiliar solution paths. This distinction matters because it implies the same developer may interact with the same assistant in qualitatively different ways depending on confidence, task familiarity, and perceived stakes.
+
+Verification behavior, how developers check whether AI-generated code is correct, has become a central dimension of interaction quality. Barke, Sarkar, and McKay show that developers use strategies ranging from cursory scanning to systematic line-by-line review, determined by task stakes, code complexity, and experience \parencite{barke2023trust}. Mozannar et al.\ further argue that verification and repair introduce substantial hidden overhead that is often missing from simplified productivity narratives \parencite{mozannar2024reading}. Taken together, these studies contest the assumption that AI assistance is straightforwardly additive: time saved in generation can be partially consumed by time spent understanding, validating, and integrating outputs.
+
+Interruptions and context switching also represent a related concern. Development work is cognitively demanding, and interruptions impose resumption costs that may degrade performance and increase error likelihood \parencite{parnin2011resumption}. AI assistants introduce a tool-mediated interruption pattern: developers pause their reasoning to evaluate an AI suggestion, decide whether to accept or modify it, and then re-enter the original problem context. When suggestions are incorrect or demand heavy modification, the evaluative pause expands into a repair cycle that fragments attention. Abad et al.\ show that interruption disruptiveness depends on both duration and cognitive demand, with interruptions requiring active problem-solving being more costly than passive ones \parencite{abad2018taskInterruption}.
+
+While this interaction literature richly characterizes completion and chat-based assistance, evidence is more limited for how interaction features change when assistance becomes more autonomous (agentic). Ross et al.\ document conversational interaction schemes such as clarification, negotiation, and iterative refinement \parencite{ross2023programmer}, but do not examine tool-using agents that execute multi-step actions. Only quite recent conceptual work contrasts conversational ``vibe'' workflows with ''agentic''  workflows across tool integration and execution environments \parencite{sapkota2025vibecoding}, but the treatment is largely conceptual rather than empirical.
+
+A closely related framing comes from ``code-with-me'' versus ``code-for-me'' interaction: Sarkar et al.\ analyze how increasing automation levels shift developer work from direct implementation toward oversight, underlining that productivity gains can be coupled with supervision costs \parencite{sarkar2025codewithme}. This framing coincides with this thesis’s paradigm distinction (collaboration vs.\ delegation), but existing evidence still leaves open how these paradigms differ \emph{within} a single modern IDE tool configuration under supervised conditions.
+
+Finally, emerging repository-mining studies deliver empirical characterization of agentic coding artifacts in practice. Watanabe et al.\ study pull requests generated with an agentic coding tool Claude Code\footnote{\url{https://code.claude.com/docs/en/overview}} across 157 open-source projects, reporting that agent-assisted PRs are frequently used for refactoring, documentation, and testing and are often merged, but still commonly require human revision to meet project standards \parencite{watanabe2025agenticPR}. Yoshioka et al.\ further compare human and agentic PRs and show that review-related factors can differ in how they relate to PR outcomes \parencite{yoshioka2026meaningfulPR}. These studies strengthen the claim that agentic coding is already a real-world phenomenon, while additionally highlighting that they do not instrument micro-level interaction costs (prompts/runs, interruptions) or capture subjective trust/control inside controlled tasks the focus of this thesis.
+
+% ---------------------------------------------------------
+
+\section{Autonomy, Control, and Trust in Human--AI Systems}
+
+\label{sec:rw-autonomy}
+
+The relationship between automation level, human control, and trust has been studied extensively in domains such as aviation, manufacturing, and driving, producing conceptual frameworks which transfer productively to \gls{ai}-assisted programming. Building on the autonomy concepts introduced in Chapter~\ref{chap:background} (see Figure~\ref{fig:autonomy-spectrum}), Parasuraman, Sheridan, and Wickens’ taxonomy highlights that as automation increases, the operator’s role shifts from active controller to monitor, changing demands on attention, situation awareness, as well as readiness to intervene \parencite[pp.~286--291]{parasuraman2000model}.
+\begin{table}[ht]
+
+  \centering
+
+  \small
+
+  \renewcommand{\arraystretch}{1.5}
+
+  \rowcolors{2}{gray!10}{white}
+
+  \begin{tabularx}{\textwidth}{p{3.5cm} X}
+
+    \toprule
+
+    \rowcolor{accentblue}
+
+    \textcolor{black}{\textbf{Level \& Role}} & \textcolor{black}{\textbf{Description}} \\
+
+    \midrule
+
+    1. None & The computer offers no assistance; the human must take all decisions and actions. \\
+
+    2. Alternatives & The computer offers a complete set of decision/action alternatives. \\
+
+    3. Narrows & The computer narrows the selection down to a few alternatives. \\
+
+    4. Suggests & The computer suggests one alternative. \\
+
+    5. Executes with Approval & The computer executes that suggestion if the human approves. \\
+
+    6. Veto Period & The computer allows the human a restricted time to veto before automatic execution. \\
+
+    7. Automatic (Inform) & The computer executes automatically, then necessarily informs the human. \\
+
+    8. Inform on Request & The computer informs the human only if asked. \\
+
+    9. Inform if Decided & The computer informs the human only if it decides to. \\
+
+    10. Autonomous & The computer decides everything and acts autonomously, ignoring the human. \\
+
+    \bottomrule
+
+  \end{tabularx}
+
+  \caption{Levels of Automation (adapted from Parasuraman, Sheridan, and Wickens, 2000).}
+
+  \label{tab:levels-of-automation}
+
+\end{table}
+
+Trust calibration, how users adjust reliance on an automated system according to observed performance, is central to effective human automation interaction. Lee and See define trust as the attitude that an agent will help achieve goals under conditions of uncertainty and vulnerability, and propose that trust is determined by \emph{performance}, \emph{process} (transparency), and \emph{purpose} \parencite[pp.~54--62]{leeSee2004trust}. Miscalibration yields two failure modes: over-trust (relying beyond capability) and under-trust (rejecting reliable assistance). Both are relevant to AI-assisted coding: over-trust can lead to accepting incorrect code without sufficient verification, while under-trust can lead to ignoring useful suggestions or micro-managing an effective agent.
+
+System properties that affect trust calibration: transparency, controllability, and predictability, map directly onto the paradigms examined in this thesis. Vibe Coding tends to preserve higher transparency (incremental outputs) and direct controllability (steering each step), which may support calibration. Agentic Coding reduces visibility into intermediate states and shifts controllability to a higher level of abstraction (supervision and intervention), possibly making calibration harder, especially when change sets are large or span multiple files. Sarkar et al.\ formalize this tension by framing AI coding tools along an automation spectrum in which increasing autonomy shifts developer effort from implementation to oversight, and the benefits of higher automation depend on sufficient supervisory skill \parencite{sarkar2025codewithme}. More generally, work on automation bias and complacency argues that increased automation can reduce watchfulness and situation awareness unless monitoring support scales accordingly \parencite{parasuramanManzey2010, endsley1995situation}.
+
+A remaining gap concerns evidence specific to \emph{coding agents} as distinct from chat-based assistants. Many trust and autonomy frameworks come from non-programming domains, and within software engineering, much empirical work focuses on lower-autonomy tools (completion, chat). Tool-using agents that plan, execute, and self-correct across multiple files and commands create distinct oversight dynamics: fewer intermediate checkpoints, higher recovery costs when drift occurs, and approval-gate interaction schemes that concentrate risk into fewer decisions. While field evidence increasingly documents agentic outcomes (e.g., PR acceptance/edits \parencite{watanabe2025agenticPR} and ecosystem-level velocity/quality trade-offs \parencite{he2025cursorDID}), controlled comparisons that link these outcomes to measurable interaction costs and subjective trust/control remain scarce.
+
+\section{Risks and Trade-Offs: Quality, Security, and Over-Reliance}
+
+\label{sec:rw-risks}
+
+Productivity-oriented work is complemented by research documenting risks and unintended consequences of \gls{ai}-assisted coding. Code quality concerns comprise duplication, insufficient error handling, inconsistent naming conventions, and poor adherence to design patterns. The Qodo 2025 State of AI Code Quality report argues that AI-generated code can underperform human-written code on maintainability-related metrics even when it achieves functional correctness \parencite{qodo2025codequality}. These quality gaps are concerning because they may be invisible in short-term evaluations: code that passes tests today may create technical debt or maintenance burden later.
+
+Security risks have received particular empirical attention. Perry et al.\ found that participants with access to an AI assistant produced more security vulnerabilities than a control group while simultaneously expressing higher confidence in their code’s security \parencite{perry2023insecure}. This combination illustrates a dangerous form of trust miscalibration: fluent outputs can create a false sense of correctness, reducing critical scrutiny. The risk is plausibly amplified under agentic workflows where assistants generate larger change sets that are harder to review exhaustively. Complementing controlled studies, ecosystem evidence suggests that agentic adoption can correlate with persistent increases in static analysis warnings and code complexity \parencite{he2025cursorDID}, strengthening the need to treat quality assurance and verification as first-class activities rather than afterthoughts.
+
+Over-reliance ties quality and security concerns together. When developers delegate verification implicitly rather than performing it deliberately, errors and vulnerabilities can propagate. This pattern is directly relevant to \gls{rq2}, which examines how trust and control perceptions differ across paradigms, and to \gls{rq1}, if efficiency gains are partially offset by repair and inspection costs \parencite{mozannar2024reading, vaithilingam2022expectation}. In this thesis, these risks motivate an interaction-focused evaluation that quantifies not only outcomes (time/success) but also the costs of oversight and flow disruption throughout the development process.
+
+Table~\ref{tab:literature-summary} consolidates key empirical and closely related studies reviewed in this chapter. The rightmost column identifies the specific gap each study leaves that the present thesis addresses.
+
+\begin{table}[H]
+
+  \centering
+
+  \caption[Summary of Key Empirical Studies]{Summary of key studies reviewed in this chapter. The rightmost column identifies the gap each study leaves that the present thesis addresses.}
+
+  \label{tab:literature-summary}
+
+  \footnotesize
+
+  \setlength{\tabcolsep}{3pt}
+
+  \renewcommand{\arraystretch}{1.0}
+
+  \rowcolors{2}{gray!10}{white}
+
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{2cm} X >{\raggedright\arraybackslash}p{4cm}}
+
+    \toprule
+
+    \rowcolor{accentblue}
+
+    \textcolor{black}{\textbf{Study}} & \textcolor{black}{\textbf{Method}} & \textcolor{black}{\textbf{Main finding}} & \textcolor{black}{\textbf{Gap addressed here}} \\
+
+    \midrule
+
+    \textbf{Peng et al.} \parencite{peng2023copilot} &
+
+    RCT ($n=95$) &
+
+    Copilot users completed task \textbf{55.8\% faster}; gains strongest for novices. &
+
+    Compares \emph{AI vs.\ no-AI}; not \emph{interaction paradigms}. \\
+
+    \textbf{Ziegler et al.} \parencite{ziegler2024measuring} &
+
+    Field (GitHub) &
+
+    Acceptance rate ($\sim$30\%) correlated with perceived productivity. &
+
+    Focuses on \emph{completion}; excludes chat/agent workflows. \\
+
+    \textbf{Cui et al.} \parencite{cui2025effectsgenai} &
+
+    Field exp.\ ($\times 3$) &
+
+    GenAI reduced time by \textbf{20--30\%}; moderated by complexity/experience. &
+
+    No \emph{within-tool mode} comparison. \\
+
+    \textbf{Vaithilingam et al.} \parencite{vaithilingam2022expectation} &
+
+    Lab &
+
+    Copilot preferred but no time improvement; verification overhead high. &
+
+    No manipulation of autonomy / paradigms within one tool. \\
+
+    \textbf{Barke et al.} \parencite{barke2023groundedcopilot} &
+
+    Qualitative &
+
+    Two styles: \emph{acceleration} and \emph{exploration}. &
+
+    No controlled efficiency/flow comparison across paradigms. \\
+
+    \textbf{Mozannar et al.} \parencite{mozannar2024reading} &
+
+    Cognitive model &
+
+    Verification/repair introduce substantial \emph{hidden overhead}. &
+
+    Costs not compared across autonomy levels (chat vs.\ agent). \\
+
+    \textbf{Perry et al.} \parencite{perry2023insecure} &
+
+    Lab &
+
+    AI increased vulnerabilities while increasing confidence. &
+
+    Does not compare trust/control across paradigms. \\
+
+    \textbf{Sarkar et al.} \parencite{sarkar2025codewithme} &
+
+    Framework + eval. &
+
+    Higher automation shifts effort from implementation to oversight. &
+
+    Not a focused Ask-vs-Agent comparison with flow/interruptions instrumentation. \\
+
+    \textbf{Watanabe et al.} \parencite{watanabe2025agenticPR} &
+
+    Repo mining &
+
+    Agent-assisted PRs are often merged, but many require human revision to meet project standards. &
+
+    Observational; lacks controlled tasks and subjective trust/control measures. \\
+
+    \textbf{Yoshioka et al.} \parencite{yoshioka2026meaningfulPR} &
+
+    Repo mining &
+
+    Human vs.\ agentic PRs show differing effects of review-related factors on outcomes. &
+
+    Observational; not a within-subject comparison of interaction paradigms. \\
+
+    \textbf{He et al.} \parencite{he2025cursorDID} &
+
+    Causal inference (DiD) &
+
+    Cursor adoption yields transient velocity gains and persistent increases in warnings/complexity. &
+
+    Project-level evidence; does not isolate paradigm-level interaction costs or perceptions. \\
+
+    \bottomrule
+
+  \end{tabularx}
+
+\end{table}
+
+% ---------------------------------------------------------
+
+\section{Research Gap and Contribution of This Thesis}
+
+\label{sec:rw-gap}
+
+The literature reviewed above reveals a specific gap addressed by this thesis. Empirical assessments of \gls{ai} coding assistants overwhelmingly compare \gls{ai}-assisted versus unassisted conditions, treating AI support as a binary intervention. Within the \gls{ai}-assisted condition, the \emph{interaction paradigm} of how the developer and \gls{ai} collaborate is typically treated as fixed rather than as an independent variable. Few studies manipulate autonomy \emph{within a single tool} while holding other factors constant (same \gls{ide}, same model configuration, same tasks, same participants). Although recent work begins to characterize agentic coding outcomes in the wild (agentic PRs \parencite{watanabe2025agenticPR, yoshioka2026meaningfulPR} and project-level adoption effects \parencite{he2025cursorDID}), these studies do not provide controlled, within-participant comparisons that connect interaction structure to measurable flow costs and to subjective experience (trust, control, workflow fit).
+
+Existing work also underexplores experiential dimensions. Productivity metrics, time, success, and acceptance rate capture outcomes, but omit how developers experience the interaction: how they manage verification decisions, how they perceive control, and whether the interaction rhythm matches their working style. These experiential dimensions influence adoption and determine whether oversight is thorough or superficial \parencite{barke2023trust, leeSee2004trust}.
+
+This thesis addresses the gap through three contributions. First, it provides a controlled within-subject empirical comparison of two coding paradigms: Vibe Coding and Agentic Coding, within a single \gls{ide} (GitHub Copilot in Visual Studio Code), using a fixed \gls{llm} configuration and counterbalanced task assignments to isolate the paradigm variable. Second, it integrates quantitative efficiency and flow measures (time, success, interaction cost, interruptions) with qualitative perception data (trust, control, workflow fit) to capture both what happens and how it is experienced. Third, it translates results into actionable best practices for programmers and companies adopting \gls{ai} coding tools, grounding recommendations in observed empirical trade-offs rather than general claims.
+
+The next chapter details the experimental design, participant recruitment, task materials, and instruments that operationalise these contributions into a concrete research protocol.

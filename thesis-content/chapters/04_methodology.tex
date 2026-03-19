@@ -1,0 +1,293 @@
+\chapter{Methodology} % Target: 3300w
+\label{chap:methodology}
+
+\section{Research Design} % Target: 450w
+
+\label{sec:research-design}
+
+% Q1: What is the study design in one sentence (within-subject; two modes; two tasks)? (60w)
+
+% Q2: What are the independent variables (mode; task group) and what is held constant? (90w)
+
+% Q3: What are dependent measures for RQ1 vs RQ2 (high level)? (90w)
+
+% Q4: How does the within-subject flow work for one participant (sequence)? (90w)
+
+% Q5: What is counterbalancing and what bias does it control? (70w)
+
+% Q6: Why include two task groups at design level (task-type sensitivity)? (50w)
+
+In this chapter we operationalize the paradigm distinction developed in Chapters~\ref{chap:background} and~\ref{chap:related-work}. Building on the conceptual differentiation between collaborative (Vibe) and delegated (Agent) development approaches, it specifies how these modes were translated into an empirical study design. Emphasis changes from theoretical framing to empirical implementation, detailing task structure, controlled variables, measurement instruments, and data collection procedures used to isolate the factors influencing the interaction style on developer efficiency and perception.
+
+The study design draws on established empirical approaches for evaluating AI-assisted programming tools. Prior work contrasting collaborative and more autonomous assistance paradigms informed the framing of interaction styles \parencite[p.~5]{sarkar2025codewithme}, while research on trust and perception in AI-generated code motivated the inclusion of perceptual measures alongside performance outcomes \parencite[pp.~3--5]{barke2023trust}. Following experimental design guidance in software engineering, a within-subject design was selected to reduce variance stemming from individual differences such as programming proficiency, problem-solving style, and prior AI exposure \parencite{wohlin2012experimentation}.
+
+The interaction paradigm (Vibe vs.\ Agentic) constitutes the primary independent variable. Task type functions as a secondary design factor through two task groups (TG1/TG2), later described in Section~\ref{sec:tasks-and-materials}. Across paradigms, the workflow frame remains constant: participants worked in the same IDE, used the same repository structure, received identical task instructions within their assigned group, and were evaluated using the same test-based success oracle. This configuration isolates interaction style as the central source of experimental variation.
+
+Dependent measures align directly with the research questions. For RQ1, efficiency and flow are captured through task achievement/completion time, task success, interaction cost proxies (e.g., prompts or agent runs), and coded interruption episodes (Section~\ref{sec:measures}). For RQ2, perceptions are measured immediately after each task using Likert-scale items (trust, perceived control, workflow fit, perceived difficulty) and further explored in short semi-structured interviews (Section~\ref{sec:procedure}).
+
+To mitigate order effects, paradigm order was counterbalanced: half of the participants completed their first task in Vibe mode and their second in Agentic mode, while the remainder followed the reverse sequence. This reduces practice and carryover effects, strengthening internal validity \parencite{wohlin2012experimentation}.
+
+\section{Participants} % Target: 500w
+\label{sec:participants}
+% Q1: Who participated (n, experience strata) and why balanced. (90w)
+% Q2: Inclusion criteria (Python/experience) and rationale. (90w)
+% Q3: Recruitment method and potential sampling bias. (70w)
+% Q4: Copilot experience distribution and why recorded. (90w)
+% Q5: Allocation across task group and mode order (balanced). (80w)
+% Q6: Consent/recording/pseudonymization steps. (80w)
+
+Excluding participants involved in the pilot study, 12 participants ($n=12$) took part in the research, spanning heterogeneous levels of professional software development experience. To avoid the sample being dominated by one seniority level, participants were stratified into three equally sized experience groups: junior ($n=4$), mid-level ($n=4$), and senior ($n=4$). This enables interpreting whether paradigm-related effects appear consistently across experience levels, including potential differences in verification habits and comfort with delegation.
+
+Recruitment followed basic inclusion criteria: prior programming experience, familiarity with Python, and prior exposure to AI-assisted coding tools. Participants were not filtered by AI-tool expertise level, since variation in familiarity was treated as analytically meaningful rather than noise to eliminate. Baseline familiarity with GitHub Copilot was recorded on a five-point self-report scale. Across the sample, Copilot experience showed a mean of $M=3.0$ ($SD=1.35$), a median of $3$, and ranged from $1$ to $5$ (distribution: 1: $n=1$, 2: $n=4$, 3: $n=4$, 4: $n=0$, 5: $n=3$). Sessions were recorded (screen and audio) with consent and stored under pseudonymous identifiers (P1--P12) (Section~\ref{sec:data-collection}).
+
+Participant allocation balanced two factors across experience levels: (1) paradigm order and (2) task group membership (TG1/TG2). Table~\ref{tab:counterbalancing} summarizes placement across task group, paradigm order, and experience level. Task groups and materials are detailed in Section~\ref{sec:tasks-and-materials}; the assignment here is reported only to document counterbalancing.
+
+\begin{table}[H]
+  \centering
+  \caption[Participant Allocation]{Participant placement across task group, paradigm order, and experience level.}
+  \label{tab:counterbalancing}
+  \renewcommand{\arraystretch}{1.15}
+  \rowcolors{2}{gray!10}{white}
+  \begin{tabular}{c l l c}
+    \toprule
+    \rowcolor{accentblue}
+    \textbf{Participant} & \textbf{Task Group} & \textbf{Paradigm Order} & \textbf{Experience Level} \\
+    \midrule
+    P1  & TG1 -- Data analysis & Vibe $\rightarrow$ Agentic & Junior \\
+    P2  & TG1 -- Data analysis & Agentic $\rightarrow$ Vibe & Junior \\
+    P3  & TG1 -- Data analysis & Vibe $\rightarrow$ Agentic & Mid-level \\
+    P4  & TG1 -- Data analysis & Agentic $\rightarrow$ Vibe & Mid-level \\
+    P5  & TG1 -- Data analysis & Vibe $\rightarrow$ Agentic & Senior \\
+    P6  & TG1 -- Data analysis & Agentic $\rightarrow$ Vibe & Senior \\
+    P7  & TG2 -- Bug fixing    & Vibe $\rightarrow$ Agentic & Junior \\
+    P8  & TG2 -- Bug fixing    & Agentic $\rightarrow$ Vibe & Junior \\
+    P9  & TG2 -- Bug fixing    & Vibe $\rightarrow$ Agentic & Mid-level \\
+    P10 & TG2 -- Bug fixing    & Agentic $\rightarrow$ Vibe & Mid-level \\
+    P11 & TG2 -- Bug fixing    & Vibe $\rightarrow$ Agentic & Senior \\
+    P12 & TG2 -- Bug fixing    & Agentic $\rightarrow$ Vibe & Senior \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+This allocation reduces the likelihood that observed differences between paradigms arise from systematic ordering patterns or experience-level imbalance rather than the interaction paradigm itself.
+\section{Tools and Experimental Setup}
+\label{sec:tools-setup}
+
+The experimental arrangement follows a simple principle: keep the surrounding workflow constant, and vary only the interaction paradigm. All participants worked in Microsoft Visual Studio Code (version~1.108) on a shared GitHub repository\footnote{\url{https://github.com/hm-study-copilot-B/copilot-vibe-agentic-coding-study/}}, ensuring identical task files, prompts, and project structure across sessions. Code execution and evaluation were performed locally via an integrated terminal, with task achievement determined through automated \texttt{pytest} tests \parencite{pytestDocs}.
+
+GitHub Copilot Pro was selected because it supports modes corresponding to both paradigms in the same \gls{ide}, reducing confounds from switching tools or adapting to different UI conventions. In the study configuration, Ask mode was used for conversational prompting and code suggestions, while Agent mode was used for goal-level delegation with multi-step execution support. Capabilities were treated at the level of what the tool was by default allowed to do (e.g., participants always retained approval for consequential actions), and are summarized in Table~\ref{tab:copilot-modes} \parencite{githubCopilotFeatures,vscodeCopilotAgentMode,vscodeCopilotCodingAgent,githubAgentMode101}.
+
+To avoid confounding interaction paradigm with model capability, Copilot’s selected \gls{llm} was held constant across sessions. The study used Claude Sonnet~4.5\footnote{\url{https://www.anthropic.com/news/claude-sonnet-4-5}} throughout, and the model configuration was not changed mid-study to preserve internal validity \parencite{githubCopilotDocs,anthropicSonnet45}. Benchmark work such as SWE-bench motivates why repository-scale tasks evaluated by test oracles are a relevant reference point for model/tool selection, even though the present study concentrates on interaction structure rather than model ranking \parencite{sweBenchmark, sweBench}.
+
+Python was used as the task language because it supports both task categories employed here (data analysis and bug fixing) while remaining accessible across experience levels. Automated tests provided a consistent correctness oracle across paradigms \parencite{pytestDocs}.
+
+\begin{table}[H]
+  \centering
+  \caption[Coding-Paradigm Capabilities]{Capabilities of the two coding paradigms as operationalized through GitHub Copilot in the study environment. Vibe Coding maps to Copilot's Ask mode; Agentic Coding maps to Copilot's Agent mode. \cmark\;denotes the capability is supported directly, $\cmark^{\dagger}$ denotes support that typically requires explicit developer approval (e.g., before applying edits or executing terminal commands), and \xmark\;denotes that the capability was not available in that interaction paradigm during the study \parencite{githubCopilotFeatures,vscodeCopilotAgentMode,vscodeCopilotCodingAgent}.}
+  \label{tab:copilot-modes}
+  \renewcommand{\arraystretch}{1.25}
+  \rowcolors{2}{gray!10}{white}
+  \begin{tabular}{p{2.8cm}cc|cccc}
+    \toprule
+    \rowcolor{accentblue}
+    \textbf{Coding Paradigm} &
+    \multicolumn{2}{c}{\textbf{Core Assistance}} &
+    \multicolumn{4}{c}{\textbf{Extended Execution Capabilities}} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-7}
+    &
+    \textbf{Auto-complete} &
+    \textbf{Chat} &
+    \textbf{Multi-file} &
+    \textbf{Terminal} &
+    \textbf{File} &
+    \textbf{Act} \\
+    &
+    &
+    &
+    \textbf{editing} &
+    \textbf{execution} &
+    \textbf{creation} &
+    \textbf{agentic} \\
+    \midrule
+    Vibe Coding (Ask mode)
+    & \cmark
+    & \cmark
+    & $\cmark^{\dagger}$
+    & \xmark
+    & \xmark
+    & \xmark \\
+    Agentic Coding (Agent mode)
+    & \cmark
+    & \cmark
+    & \cmark
+    & $\cmark^{\dagger}$
+    & \cmark
+    & $\cmark^{\dagger}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Tasks and Materials}
+\label{sec:tasks-and-materials}
+
+To compare the two coding paradigms under regulated yet realistic conditions, the study used repository-based programming tasks. In this thesis, a \emph{task} refers to a time-boxed assignment performed within the provided GitHub repository (Section~\ref{sec:tools-setup}): participants modify starter code to satisfy stated requirements and validate progress by running an automated \texttt{pytest} test suite \parencite{pytestDocs}. Each participant completed two tasks (Task~A and Task~B) within a single assigned task group, using one coding paradigm per task. The mapping of paradigms to Task~A versus Task~B follows the counterbalanced procedure described in Section~\ref{sec:procedure}.
+
+Two task categories were selected to represent distinct development activities. Task Group~1 (TG1) consists of GAIA-inspired data analysis tasks \parencite[p.~4]{gaiaBenchmark}. Task Group~2 (TG2) consists of SWE-bench-inspired bug-fixing tasks \parencite[p.~3--8]{sweBenchmark}. Both categories are implemented as Python repository tasks, but vary in cognitive demand: TG1 emphasizes exploration and interpretation, whereas TG2 emphasizes tracing failures and implementing minimal, high-precision fixes. This contrast supports examining whether paradigm effects vary with task characteristics \parencite{sarkar2025codewithme,barke2023trust}.
+
+Comparability across coding paradigms was enforced at the material level. Participants received identical written instructions, consistent starter code structure, and equivalent automated tests across conditions. The task prompt and success oracle (tests) remained unchanged between paradigms; only the interaction paradigm used to obtain AI assistance differed.
+
+\subsection{Repository Structure and Provided Materials}
+
+At the start of each session, participants received the repository address (Section~\ref{sec:tools-setup}). Each task (A or B) was contained in its own folder and included (1) starter code in \texttt{src/}, (2) a test suite in \texttt{tests/}, and (3) task-specific input files where relevant (e.g., a CSV file for data analysis tasks). Figure~\ref{fig:repo-structures} summarizes the repository layout as presented to participants.
+
+\begin{figure}[H]
+  \setlength{\fboxsep}{5pt}
+  \centering
+  \begin{minipage}[t]{0.44\textwidth}
+    \fbox{%
+      \parbox{\textwidth}{\footnotesize
+        \textbf{Task Group 1 (TG1): Data analysis tasks}\par\medskip
+        \texttt{task\_group\_1/}\\
+        \texttt{├─ task\_1a/}\\
+        \texttt{│\ \ ├─ README.md}\\
+        \texttt{│\ \ ├─ data/ \ \ \ \ \ (CSV)}\\
+        \texttt{│\ \ ├─ src/ \ \ \ \ \ (solution.py)}\\
+        \texttt{│\ \ └─ tests/ \ \ (test\_solution.py)}\\
+        \texttt{└─ task\_1b/}\\
+        \texttt{\hspace*{1.6em}├─ README.md}\\
+        \texttt{\hspace*{1.6em}├─ data/ \ \ \ \ \ (CSV)}\\
+        \texttt{\hspace*{1.6em}├─ src/ \ \ \ \ \ (solution.py)}\\
+        \texttt{\hspace*{1.6em}└─ tests/ \ \ (test\_solution.py)}\\
+    }}
+  \end{minipage}
+  \hspace{1.2em}
+  \begin{minipage}[t]{0.44\textwidth}
+    \fbox{%
+      \parbox{\textwidth}{\footnotesize
+        \textbf{Task Group 2 (TG2): Bug-fixing tasks}\par\medskip
+        \texttt{task\_group\_2/}\\
+        \texttt{├─ task\_2a/}\\
+        \texttt{│\ \ ├─ README.md}\\
+        \texttt{│\ \ ├─ src/ \ \ \ \ \ (solution.py, demo.py)}\\
+        \texttt{│\ \ └─ tests/ \ \ (test\_solution.py)}\\
+        \texttt{└─ task\_2b/}\\
+        \texttt{\hspace*{1.6em}├─ README.md}\\
+        \texttt{\hspace*{1.6em}├─ src/ \ \ \ \ \ (solution.py, demo.py)}\\
+        \texttt{\hspace*{1.6em}└─ tests/ \ \ (test\_solution.py)}\\
+        \texttt{\hspace*{1.6em}}\\
+        \texttt{\hspace*{1.6em}}\\
+    }}
+  \end{minipage}
+
+  \caption[Repository Structure for TG1 \& TG2]{Repository structure provided to participants. Each participant completed Task~A and Task~B within their assigned task group (TG1 or TG2).}
+  \label{fig:repo-structures}
+\end{figure}
+
+\subsection{Task Descriptions}
+\label{sec:task-desc}
+
+In TG1 (Tasks~1A and 1B), participants worked with a CSV dataset and implemented the required analysis logic in \texttt{src/solution.py}. The tasks were testable through an automated suite, enabling objective correctness checks while still requiring iterative reasoning and interpretation. The exact codes for Task~1A and Task~1B are reproduced in Appendix~\ref{app:tg1a-code} and Appendix~\ref{app:tg1b-code}.
+
+In TG2 (Tasks~2A and 2B), participants were presented with an existing implementation containing bugs and were asked to fix the code so that the supplied \texttt{pytest} suite passes \parencite{pytestDocs}. Running the tests surfaced failing cases and error messages, supporting a debugging workflow centered on localized code comprehension and precise modifications. The exact prompts and code context for Task~2A and Task~2B are reproduced in Appendix~\ref{app:tg2a-code} and Appendix~\ref{app:tg2b-code}.
+
+\subsection{Success Criteria, Difficulty Selection, and Constraints}
+\label{sub:success-criteria}
+Task achievement was defined as passing all provided \texttt{pytest} tests within the fixed time limit. If the time limit was reached before all tests passed, the task was recorded as incomplete; partial progress (code state and latest test outcome) was retained for analysis.
+
+Task difficulty was calibrated through pilot sessions to reduce ceiling and floor effects. Piloting verified that tasks are solvable within the time box with meaningful effort, not trivial without deliberate reasoning, and not systematically unsolvable under either paradigm. Based on these pilots, task wording and tests were refined to ensure an unambiguous target behavior while preserving non-trivial workload \parencite{wohlin2012experimentation}.
+
+To decrease external variance and contamination, participants were prohibited from consulting the internet and were instructed not to use any \gls{ai} tools other than the configured GitHub Copilot mode assigned for the task. Participants were also instructed not to consult colleagues or friends during the session.
+
+\section{Procedure}
+\label{sec:procedure}
+
+Each session followed an identical end-to-end structure to maintain comparability across participants. After a brief onboarding and environment check, participants completed two tasks (Task~A and Task~B) within their assigned task group (Section~\ref{sec:task-desc}). The two tasks were completed under different coding paradigms (Vibe Coding vs.\ Agentic Coding). Immediately after each task, participants completed a brief post-task questionnaire capturing paradigm-specific perceptions (Likert items documented in Appendix~\ref{app:master-thesis}). The session concluded with a short semi-structured interview focusing on contrasts between paradigms and notable moments observed during task execution.
+
+\begin{table}[ht]
+
+  \centering
+
+  \caption{Session Structure and Time Allocation per Participant}
+
+  \label{tab:session-timing}
+
+  \renewcommand{\arraystretch}{1.2}
+
+  \rowcolors{2}{gray!10}{white}
+
+  \begin{tabular}{p{11cm}r}
+
+    \toprule
+
+    \rowcolor{accentblue}
+
+    \textbf{Session Phase} & \textbf{Duration (min.)} \\
+
+    \midrule
+
+    Introduction and Setup & 5--10 \\
+
+    Coding Task 1 & 15 \\
+
+    Post-task Likert Questionnaire (Task 1) & 5 \\
+
+    Coding Task 2 & 15 \\
+
+    Post-task Likert Questionnaire (Task 2) & 5 \\
+
+    Semi-Structured Interview & 10--15 \\
+
+    \midrule
+
+    \textbf{Total} & \textbf{45--60} \\
+
+    \bottomrule
+
+  \end{tabular}
+
+\end{table}
+
+Standardization was enforced using a fixed briefing script and checklist applied at the start of every session. Participants were reminded of the common success criterion (passing the provided \texttt{pytest} tests) and instructed to read the task-specific \texttt{README.md} before beginning each task.
+
+Paradigm switching was implemented as a clean transition between Task~A and Task~B to reduce carryover from earlier context. Each task resided in its own folder with independent starter code and tests. When moving to the second task, participants opened the new task folder and began a fresh Copilot interaction for that paradigm (i.e., without relying on prior chat context).
+
+Each coding task was time-boxed to 15 minutes (Table~\ref{tab:session-timing}). If the time limit was reached before all tests passed, the task was stopped and marked as incomplete. Partial progress was retained (code state, latest test outcomes, and recording), enabling later analysis of where progress stalled and how the paradigm shaped recovery attempts.
+
+Carryover effects were mitigated through three safeguards: (1) paradigm order was counterbalanced across participants, (2) each participant worked within only one task group (TG1 or TG2), and (3) task separation was enforced structurally (distinct folders, prompts, and tests).
+
+\section{Measures and Instruments}
+\label{sec:measures}
+
+Measures were selected to map directly to the research questions: performance and workflow disruption for RQ1, and perceived trust/control/workflow fit for RQ2. Definitions of the underlying constructs are provided in Chapters~\ref{chap:background}--\ref{chap:related-work}; this section focuses on operationalization.
+
+\paragraph{Task completion time (RQ1).}
+Completion time was defined as the elapsed time between task start (first code edit or Copilot interaction after opening the task folder) and the first point at which all \texttt{pytest} tests passed. If the time limit was reached, time was recorded as the full time box with an incomplete outcome (0/1). Timing was derived from session recordings and corroborated via visible test runs and task transitions.
+
+\paragraph{Task achievement (RQ1).}
+Task achievement was operationalized as functional correctness according to the provided \texttt{pytest} suite: a task was successful only if all tests passed within the time limit. This provides a paradigm-invariant success oracle and reduces ambiguity in what counts as ``done'' \parencite{sweBenchmark,pytestDocs}.
+
+\paragraph{Interaction cost (RQ1).}
+Interaction cost captures the amount of explicit assistance-seeking required. In Vibe/Ask, this is operationalized as the number of user prompting cycles (prompts and follow-ups). In Agentic/Agent, this is operationalized as the number of agent runs and required approvals. Counts were derived from screen recordings and session notes.
+
+\paragraph{Interruptions and flow breaks (RQ1).}
+Interruptions were captured by structured observational coding aligned to recordings. An interruption was coded when visible progress paused for a sustained period due to uncertainty, tool friction, or recovery work (e.g., extended rereading, repeated undoing/backtracking, or prolonged stalling before the next actionable step). This treats interruption episodes and resumption effort as indicators of workflow disruption \parencite{parnin2011resumption,abad2018taskInterruption,meyer2014productivity}.
+
+\paragraph{Post-task perceptions (RQ2).}
+After each task, participants completed short Likert-scale items capturing perceived trust in the assistance, perceived control/oversight, perceived workflow fit, and perceived effort/difficulty. Items were intentionally brief to reduce disruption while still capturing immediate paradigm-specific impressions \parencite{likert1932technique,barke2023trust}.
+
+\paragraph{Semi-structured interview (RQ2).}
+A short semi-structured interview elicited explanations behind ratings and surfaced contrasts not captured in numeric responses. Recordings and notes provided behavioral grounding (e.g., verification patterns, hesitation, explicit handoffs, manual takeover), supporting triangulation between enacted behavior and self-report \parencite{wohlin2012experimentation}.
+
+\section{Data Collection and Management}
+\label{sec:data-collection}
+
+Data collection combined interaction traces, performance artifacts, and self-reports. Screen and audio recordings captured prompts, Copilot outputs, code edits, terminal/test runs, and visible verification activities across the full session. For each task, the final code state and the last observed test outcome were retained as primary performance artifacts. Post-task questionnaires produced paradigm-specific perception data, and the concluding interview provided comparative reflections that contextualize numeric ratings (Section~\ref{sec:procedure}).
+
+In parallel, a structured and reformatted Excel spreadsheet (\texttt{master\_thesis.xls}; see Appendix~\ref{app:master-thesis}) was maintained to register quantitative measures and structured observational notes (e.g., hesitation, reversals, confusion about tool behavior, manual takeover). These notes support later coding of interruptions and provide context to understand success/failure patterns.
+
+All materials were stored under pseudonymous participant identifiers (P1--P12). Recordings, notes, and questionnaire exports were saved in a secure study directory with restricted access. Identifying information was separated from analysis files, and reporting uses only pseudonyms and avoids personally identifying details in quotations.
+
+\section{Ethical Aspects}
+\label{sec:ethics}
+
+Participants received an information post describing the study purpose, procedure, and data administration. They were informed that the session would be screen- and audio-recorded and that participation was voluntary with the right to discontinue at any time without consequence. Data were stored under pseudonymous identifiers (P1--P12), and identifying information was kept separate from analysis artifacts (Section~\ref{sec:data-collection}). Access to raw recordings and exports was restricted to the researcher, and no personally identifying information is reported in the thesis.

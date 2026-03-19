@@ -1,0 +1,61 @@
+
+% !TEX program = xelatex % (can also use "lualatex")
+\documentclass[a4paper,11pt,oneside]{book}
+
+\input{config/packages.tex}
+\input{config/settings.tex}
+\input{config/abbreviations.tex}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{plain}
+% Uppercase Roman page numbering for front matter
+\pagenumbering{Roman}
+
+\input{frontmatter/titlepage.tex}
+\input{frontmatter/declaration.tex}
+\input{frontmatter/abstract.tex}
+
+\tableofcontents
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+% Combine List of Tables, Algorithms, and Code Listings into one page
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+\vspace{-0.3cm}
+\begingroup
+\let\clearpage\relax
+\endgroup
+
+\printglossary[style=customglossarystyle,type=\acronymtype,title=List of Abbreviations,toctitle=List of Abbreviations]
+
+\mainmatter
+\pagestyle{fancy}
+
+\input{chapters/01_introduction.tex}
+\input{chapters/02_theoretical-background.tex}
+\input{chapters/03_related-work.tex}
+\input{chapters/04_methodology.tex}
+\input{chapters/05_results.tex}
+\input{chapters/06_discussion.tex}
+\input{chapters/07_conclusion.tex}
+
+\printbibliography[heading=bibintoc]
+\cleardoublepage
+\phantomsection
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Appendix}
+\appendix
+\pagestyle{plain}
+\input{backmatter/appendix.tex}
+
+\end{document}
